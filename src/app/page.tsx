@@ -1,95 +1,45 @@
+"use client"
+import { Button} from "@mui/material";
 import Image from "next/image";
-import styles from "./page.module.css";
-
+import { ChangeEvent, FormEvent, Suspense, useState } from "react";
+import Particalss from "./particals";
+import Loading from "./loading";
 export default function Home() {
+  const [time,setData]=useState<string>(" ")
+  const changing=(e:ChangeEvent<HTMLInputElement>)=>{
+      setData(e.target.value);
+  }
+
+  const sendTime=async (e:FormEvent<HTMLButtonElement>)=>{
+    e.preventDefault();
+
+    let response=await fetch("http://localhost:3000/api",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({time})
+    });
+    setData(" ");
+    response=await response.json();
+    if(response.success){
+      alert("Your data send successfully")
+    }else{
+      alert("your data is not send"); 
+    }
+
+  }
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <>
+    <Suspense fallback={<Loading/>}>
+      <Particalss/>
+        <div id="main" style={{display:"flex",flexWrap:"wrap",justifyContent:"center"}}>
+          <Image src="/game.jpg"  alt="Image is not loaded" layout="fill" objectFit="contain"/>
+          <form style={{position:"relative",top:"46vh"}}>
+            <input type="number" placeholder="Enter the time" style={{height:"3vh",paddingLeft:"5vw"}} onChange={changing} value={time}></input>
+            <Button  style={{color:"white"}} variant="contained" onClick={sendTime}>Set time </Button>
+          </form>
         </div>
-      </div>
+    </Suspense>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </>
   );
 }
