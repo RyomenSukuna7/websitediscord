@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
 export async function POST(req){
-    await mongoose.connect(process.env.DATA);
+    await mongoose.connect("mongodb+srv://nishantadvani724:kickkick7@cluster0.t00iki9.mongodb.net/gaming?retryWrites=true&w=majority&appName=Cluster0");
     const schema=new mongoose.Schema({
         time:{
             type:String,
