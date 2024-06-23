@@ -13,7 +13,7 @@ export default function Home() {
   const sendTime=async (e:FormEvent<HTMLButtonElement>)=>{
     e.preventDefault();
 
-    let response=await fetch("http://localhost:3000/api",{
+    let response=await fetch("websitediscord-gqmy.vercel.app/api",{
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({time})
