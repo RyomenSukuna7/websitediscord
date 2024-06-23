@@ -14,7 +14,7 @@ export async function POST(req){
         const payload=await req.json();
         const datasend=new product(payload);
         const result=await datasend.save();
-        return NextResponse.json({result,success:true});
+        return NextResponse.json({result,ok:true});
     }catch(error){
         return NextResponse.json({error:"some error come"})
     }

@@ -20,7 +20,7 @@ export default function Home() {
     });
     setData(" ");
     response=await response.json();
-    if(response.success){
+    if(response.ok){
       alert("Your data send successfully")
     }else{
       alert("your data is not send"); 
